@@ -1,0 +1,18 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="413px" height="157px" viewBox="-0.5 -0.5 413 157">
+    <defs/>
+    <g>
+        <rect x="219" y="13" width="3" height="35" rx="0.45" ry="0.45" fill="#4d4d4d" stroke="#4d4d4d" transform="rotate(-60,220.5,30.5)" pointer-events="none"/>
+        <path d="M 287 -2 C 287 -10.28 298.19 -17 312 -17 C 318.63 -17 324.99 -15.42 329.68 -12.61 C 334.37 -9.79 337 -5.98 337 -2 L 337 168 C 337 176.28 325.81 183 312 183 C 298.19 183 287 176.28 287 168 Z" fill="#ff0000" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-240,312,83)" pointer-events="none"/>
+        <path d="M 337 -2 C 337 6.28 325.81 13 312 13 C 298.19 13 287 6.28 287 -2" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-240,312,83)" pointer-events="none"/>
+        <ellipse cx="386" cy="126" rx="23" ry="13" fill="#ffffff" stroke="rgb(0, 0, 0)" transform="rotate(-240,386,126)" pointer-events="none"/>
+        <path d="M 355.63 84 L 366.25 84 Q 348.99 108.5 366.25 133 L 355.63 133 Q 338.37 108.5 355.63 84 Z" fill="#ffe599" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-330,356.63,108.5)" pointer-events="none"/>
+        <path d="M 245.63 21 L 256.25 21 Q 238.99 45.5 256.25 70 L 245.63 70 Q 228.37 45.5 245.63 21 Z" fill="#ffe599" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-330,246.62,45.5)" pointer-events="none"/>
+        <path d="M 74 -3 C 74 -11.28 85.19 -18 99 -18 C 105.63 -18 111.99 -16.42 116.68 -13.61 C 121.37 -10.79 124 -6.98 124 -3 L 124 167 C 124 175.28 112.81 182 99 182 C 85.19 182 74 175.28 74 167 Z" fill="#ff0000" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(60,99,82)" pointer-events="none"/>
+        <path d="M 124 -3 C 124 5.28 112.81 12 99 12 C 85.19 12 74 5.28 74 -3" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(60,99,82)" pointer-events="none"/>
+        <ellipse cx="173" cy="39" rx="23" ry="13" fill="rgb(255, 255, 255)" stroke="#4d4d4d" stroke-width="3" transform="rotate(60,173,39)" pointer-events="none"/>
+        <path d="M 142.63 32 L 153.25 32 Q 135.99 57 153.25 82 L 142.63 82 Q 125.37 57 142.63 32 Z" fill="#ffe599" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-30,143.63,57)" pointer-events="none"/>
+        <rect x="187" y="13" width="3" height="35" rx="0.45" ry="0.45" fill="#4d4d4d" stroke="#4d4d4d" transform="rotate(60,188.5,30.5)" pointer-events="none"/>
+        <path d="M 33.63 95 L 44.25 95 Q 26.99 120 44.25 145 L 33.63 145 Q 16.37 120 33.63 95 Z" fill="#ffe599" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" transform="rotate(-30,34.63,120)" pointer-events="none"/>
+        <path d="M 204 89 L 204 20" fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" pointer-events="none"/>
+    </g>
+</svg>
