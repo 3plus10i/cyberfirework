@@ -11,8 +11,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            /* justify-content: center; */
-            /* align-items: center; */
             height: 100vh;
             background-color: #f1f1f1;
         }
@@ -24,11 +22,51 @@
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            position: relative;
             border: none;
-            cursor: pointer;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+            font-weight: 500;
+            /* font-size: 17px; */
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            line-height: 1.41176471;
+            border-radius: 4px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            cursor: default;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .NormalButton {
+            padding: 4px 4px;
+            background-color: #07c160;
+        }
+
+        .NormalButton:hover {
+            background-color: #05a14d;
+        }
+
+        .CriticalButton {
+            padding: 4px 4px;
+            background-color: red;
+        }
+
+        .CriticalButton:hover {
+            background-color: darkred;
+        }
+
+        #loopButton {
+            padding: 4px 8px;
+            background-color: beige;
+            color: black;
+        }
+
+        #loopButton:hover {
+            background-color: white;
         }
 
         #top-container {
@@ -44,40 +82,62 @@
             /* 与previousElement的高度相同 */
         }
 
-        #fireButton {
-            background-color: red;
-            /* 设置背景色为红色 */
-            border-radius: 12px;
-            /* 设置圆角 */
-            color: white;
-            /* 设置文字颜色为白色 */
-            border: none;
-            /* 移除边框 */
-            padding: 10px 20px;
-            /* 设置内边距 */
-            cursor: pointer;
-            /* 设置鼠标悬停时的光标样式 */
+
+        .couplet {
+            display: none;
+            font-family: 'KaiTi';
+            font-size: 24px;
+            color: yellow;
+            background-color: rgb(255, 94, 0);
+            padding: 10px;
+            margin: 0 40px;
+            position: relative;
+            top: 60px;
         }
 
-        #fireButton:hover {
-            background-color: darkred;
-            /* 设置鼠标悬停时的背景色 */
+        @keyframes slideInFromTop {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
+        .slideInFromTop {
+            animation: slideInFromTop 1s ease-out forwards;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 100%;
+            font-size: 10px;
+            color: #888;
+        }
+
     </style>
 </head>
 
 <body>
     <div id="top-container">
+        <button id="loopButton" class="NormalButton" onclick="loop()">Ω</button>
         <label for="crackerNumber">买点鞭炮吗？</label>
-        <input type="number" id="crackerNumber" value="12">
-        <button id="genButton" onclick="gen()">买好了</button>
-        <button id="fireButton" onclick="fire()">点火</button>
-        <button id="stopButton" onclick="stop()">停止</button>
-        <button id="loopButton" onclick="loop()">Ω</button>
+        <input type="number" id="crackerNumber" value="1">
+        <button id="genButton" class="NormalButton" onclick="gen()">买好了</button>
+        <button id="fireButton" class="CriticalButton" onclick="fire()">点火</button>
     </div>
-    <!-- <iframe> -->
+    <div id="coupletContainer">
+        <div id="couplet1" class="couplet"></div>
+        <div id="couplet2" class="couplet"></div>
+    </div>
     <div id="svgContainer"></div>
-    <!-- </iframe> -->
+
+    <div id="footer">yjy @ 2024-2-8</div>
 
 
     <script>
@@ -155,6 +215,10 @@
         const svgContainer = document.getElementById('svgContainer');
 
         function gen() {
+            // 刷新对联区域为空
+            document.getElementById('couplet1').style.display = 'none';
+            document.getElementById('couplet2').style.display = 'none';
+
             const num = parseInt(crackerNumber.value);
             if (!isNaN(num)) {
                 svgContainer.innerHTML = ''; // Clear the container
@@ -191,10 +255,6 @@
             }
         }
 
-        function stop() {
-            svgContainer.innerHTML = '';
-        }
-
         function fire() {
             var effectInterval = 100;
             const divs = Array.from(svgContainer.querySelectorAll('div'));
@@ -203,18 +263,20 @@
                     bloom(div, effectInterval);
                 }, i * effectInterval);
             });
-            endingAnime();
+            if (loopFlag) {
+                setTimeout(() => {
+                    gen();
+                    fire();
+                }, divs.length * effectInterval);
+            } else {
+                setTimeout(() => {
+                    endingAnime();
+                }, divs.length * effectInterval);
+
+            }
         }
 
-
-
-
-
         function bloom(div, effectInterval) {
-            // 检查中止条件
-            if (svgContainer.innerHTML == ''){
-                return;
-            }
             // 将内容修改为另一个爆炸特效
             div.innerHTML = explosionEffect;
             // 加入随机角度
@@ -231,20 +293,50 @@
             // 加入随机透明度
             svg.style.opacity = 0.5 + Math.random() * 0.5;
             // 加入音效
-            const audio = new Audio('./src/firecracker1.mp3');
+            const audio1 = new Audio('./src/firecracker1.mp3');
+            const audio2 = new Audio('./src/firecracker2.mp3');
+            const audio = Math.random() > 0.3 ? audio1 : audio2;
             audio.currentTime = 0; // 设置播放位置
             audio.play();
             // setTimeout(() => {
             //     audio.pause(); // 在指定的时长后停止播放
             // }, duration * 1000);
             // 随机延迟后删除
+
             setTimeout(() => {
                 svgContainer.removeChild(div);
             }, effectInterval * (0.7 + 0.6 * Math.random()));
         }
 
         function endingAnime() {
+            // 从couplet.txt中随机读取一行
+            fetch('./src/couplet.txt').then(response => response.text()).then(text => {
+                const couplets = text.split('\n');
+                const couplet = couplets[Math.floor(Math.random() * couplets.length)];
+                let couplet1 = couplet.split(' ')[0];
+                couplet1 = couplet1.split('').join('\n');
+                let couplet2 = couplet.split(' ')[1];
+                couplet2 = couplet2.split('').join('\n');
+                // 生成竖向的对联
+                document.getElementById('couplet1').innerText = couplet1;
+                document.getElementById('couplet2').innerText = couplet2;
+                document.getElementById('couplet1').style.display = 'inline-block';
+                document.getElementById('couplet2').style.display = 'inline-block';
+                // 启用动画
+                document.getElementById('couplet1').className += ' slideInFromTop';
+                document.getElementById('couplet2').className += ' slideInFromTop';
+            });
+        }
 
+        let loopFlag = false;
+        function loop() {
+            loopFlag = !loopFlag;
+            if (loopFlag) {
+                // 设定按钮背景颜色
+                document.getElementById('loopButton').style.backgroundColor = 'white';
+            } else {
+                document.getElementById('loopButton').style.backgroundColor = 'beige';
+            }
         }
 
 
