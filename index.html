@@ -120,7 +120,7 @@
             left: 10px;
             width: 100%;
             font-size: 10px;
-            color: #888;
+            color: #999;
         }
 
     </style>
@@ -221,6 +221,7 @@
             // 刷新对联区域为空
             document.getElementById('couplet1').style.display = 'none';
             document.getElementById('couplet2').style.display = 'none';
+            document.getElementById('footer').style.display = 'none';
 
             const num = parseInt(crackerNumber.value);
             if (!isNaN(num)) {
@@ -324,6 +325,7 @@
                 document.getElementById('couplet2').innerText = couplet2;
                 document.getElementById('couplet1').style.display = 'inline-block';
                 document.getElementById('couplet2').style.display = 'inline-block';
+                document.getElementById('footer').style.display = 'inline-block';
                 // 启用动画
                 document.getElementById('couplet1').className += ' slideInFromTop';
                 document.getElementById('couplet2').className += ' slideInFromTop';
