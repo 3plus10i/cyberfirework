@@ -224,11 +224,11 @@
                 svgContainer.innerHTML = ''; // Clear the container
                 var horizontalMirror = false;
                 for (let i = 0; i < num; i++) {
-                    // Create a div element for each SVG
+                    // 创建div
                     const div = document.createElement('div');
                     div.innerHTML = fireword_lined1;
 
-                    // Set the position of the div
+                    // 调整位置
                     div.style.position = 'absolute';
                     div.style.top = `${i * 48}px`;
 
@@ -243,9 +243,6 @@
                     if (horizontalMirror) {
                         div.style.transform += ' scaleX(-1)';
                     }
-
-                    // Set the visibility of the div/
-                    // div.style.display = i % 2 === 0 ? 'block' : 'none';
 
                     svgContainer.appendChild(div);
 
@@ -319,7 +316,6 @@
                 let couplet2 = couplet.split(' ')[1];
                 couplet1 = couplet1.split('').join('\n');
                 couplet2 = couplet2.split('').join('\n');
-                
                 // 生成竖向的对联
                 document.getElementById('couplet1').innerText = couplet1;
                 document.getElementById('couplet2').innerText = couplet2;
