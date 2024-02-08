@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             height: 100vh;
             background-color: #f1f1f1;
         }
@@ -77,6 +78,7 @@
         }
 
         #svgContainer {
+            display: block;
             position: relative;
             top: 80px;
             /* 与previousElement的高度相同 */
@@ -90,7 +92,7 @@
             color: yellow;
             background-color: rgb(255, 94, 0);
             padding: 10px;
-            margin: 0 40px;
+            margin: 0 0 0 40px;
             position: relative;
             top: 60px;
         }
@@ -112,7 +114,7 @@
         }
 
         #footer {
-            position: absolute;
+            position: relative;
             bottom: 0;
             left: 10px;
             width: 100%;
@@ -126,9 +128,9 @@
 <body>
     <div id="top-container">
         <button id="loopButton" class="NormalButton" onclick="loop()">Ω</button>
-        <label for="crackerNumber">买点鞭炮吗？</label>
-        <input type="number" id="crackerNumber" value="1">
-        <button id="genButton" class="NormalButton" onclick="gen()">买好了</button>
+        <label for="crackerNumber">来点鞭炮吗？</label>
+        <input type="number" id="crackerNumber" value="12">
+        <button id="genButton" class="NormalButton" onclick="gen()">好哇</button>
         <button id="fireButton" class="CriticalButton" onclick="fire()">点火</button>
     </div>
     <div id="coupletContainer">
