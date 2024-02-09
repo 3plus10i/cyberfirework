@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Firework</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+        #main-container {
             display: flex;
+            flex: 1;
             flex-direction: column;
-            height: 100vh;
-            background-color: #f1f1f1;
+            background-color: #eee24025;
         }
 
-        input[type="number"] {
-            padding: 5px;
-            width: 40px;
-            margin-right: 10px;
+        #content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         button {
@@ -43,7 +43,7 @@
         }
 
         .NormalButton {
-            padding: 4px 4px;
+            padding: 4px 10px;
             background-color: #07c160;
         }
 
@@ -52,7 +52,7 @@
         }
 
         .CriticalButton {
-            padding: 4px 4px;
+            padding: 4px 10px;
             background-color: red;
         }
 
@@ -70,31 +70,53 @@
             background-color: white;
         }
 
-        #top-container {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 50px;
-        }
-
-        #svgContainer {
-            display: block;
+        #anime {
             position: relative;
-            top: 80px;
-            /* 与previousElement的高度相同 */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 400px;
+            border: 2px solid gainsboro;
+            background-color: rgba(252, 221, 46, 0.63);
+            margin: 10px 10px 0 10px;
         }
 
+        #logo:hover {
+            transform: scale(1.2) rotate(-20deg);
+        }
+
+        .svgF1,
+        .svgEffect {
+            position: absolute;
+            display: block;
+            left: 0;
+            top: 0;
+            right: 0;
+            margin: 0 auto;
+            scale: 0.5;
+        }
+
+        #coupletContainer {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 10px 0 10px;
+            /* top: 20px; */
+        }
 
         .couplet {
+            position: relative;
             display: none;
             font-family: 'KaiTi';
-            font-size: 24px;
+            font-size: 26px;
             color: yellow;
             background-color: rgb(255, 94, 0);
             padding: 10px;
-            margin: 0 0 0 40px;
-            position: relative;
-            top: 60px;
+            margin: 0 50px 0 50px;
         }
 
         @keyframes slideInFromTop {
@@ -113,200 +135,220 @@
             animation: slideInFromTop 1s ease-out forwards;
         }
 
-        #footer {
-            display: none;
-            position: relative;
-            bottom: 0;
-            left: 10px;
+        .footer {
             width: 100%;
-            font-size: 10px;
-            color: #999;
+            color: gainsboro;
+            font-size: small;
         }
-
     </style>
 </head>
 
-<body>
-    <div id="top-container">
-        <button id="loopButton" class="NormalButton" onclick="loop()">Ω</button>
-        <label for="crackerNumber">来点鞭炮吗？</label>
-        <input type="number" id="crackerNumber" value="12">
-        <button id="genButton" class="NormalButton" onclick="gen()">好哇</button>
-        <button id="fireButton" class="CriticalButton" onclick="fire()">点火</button>
-    </div>
-    <div id="coupletContainer">
-        <div id="couplet1" class="couplet"></div>
-        <div id="couplet2" class="couplet"></div>
-    </div>
-    <div id="svgContainer"></div>
 
-    <div id="footer">yjy @ 2024-2-8</div>
+<body>
+    <div id="main-container">
+        <div id="content">
+            <div id="panel">
+                <button id="loopButton" class="NormalButton" onclick="loop()">Ω</button>
+                <label for="crackerNumber">来点鞭炮吗？</label>
+                <input type="number" id="crackerNumber" value="24">
+                <button id="genButton" class="NormalButton" onclick="gen()">好哇</button>
+                <button id="fireButton" class="CriticalButton" onclick="fire()">点火</button>
+            </div>
+            <div id="anime">
+                <img id="logo" src="./src/firework_logo.svg" onclick="clickLogo()" style="z-index:1001;">
+                <img id="svgEffect" class="svgEffect" src="./src/explosionEffect2.svg"
+                    style="display: none; z-index:1000;">
+                <div id="coupletContainer">
+                    <div id="couplet1" class="couplet"></div>
+                    <div id="couplet2" class="couplet"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; <a href="https://github.com/3plus10i" class="footer">yjy</a> @ 2024</p>
+        </div>
+    </div>
+
 
 
     <script>
-        const fireword_lined1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            width="260" height="100"
-            viewBox="0 0 260 100" fill="none">
-            <g opacity="1" transform="translate(0.654388427734375 0.710845947265625)">
-                <path id="路径 1" fill-rule="evenodd" style="fill:#4D4D4D" opacity="1"
-                    d="M129.639 7.74222L130.169 6.73177C130.285 6.5117 130.548 6.44133 130.758 6.57458L149.164 18.2661C149.374 18.3994 149.45 18.6858 149.335 18.9059L148.804 19.9163C148.689 20.1364 148.425 20.2068 148.215 20.0735L129.81 8.38197C129.6 8.24871 129.524 7.96229 129.639 7.74222Z"></path>
-                <path id="路径 1" style="fill:#4D4D4D; opacity:1;"
-                    d="M129.217 7.47412L129.747 6.46368C129.991 5.99909 130.548 5.85052 130.991 6.13184L149.396 17.8234C149.839 18.1047 150 18.7094 149.757 19.174L149.226 20.1844C148.983 20.649 148.426 20.7976 147.983 20.5162L129.577 8.82471C129.135 8.54339 128.973 7.93871 129.217 7.47412ZM130.061 8.01031C130.074 7.98586 130.065 7.95403 130.042 7.93923L148.448 19.6308C148.424 19.616 148.395 19.6238 148.382 19.6482L148.912 18.6378C148.9 18.6622 148.908 18.6941 148.931 18.7089L130.526 7.01733C130.549 7.03214 130.579 7.02432 130.591 6.99986L130.061 8.01031Z"></path>
-                <path id="路径 2" fill-rule="evenodd" style="fill:#FF0000" opacity="1"
-                    d="M251.786 64.3488C256.32 67.2289 256.462 76.3078 252.096 84.6278C250 88.6222 247.124 91.9042 244.103 93.7524C241.076 95.597 238.158 95.8563 235.979 94.4719L142.891 35.3406C138.357 32.4605 138.215 23.3815 142.581 15.0615C146.947 6.74154 154.164 2.33742 158.698 5.21746L251.786 64.3488Z"></path>
-                <path id="路径 2" style="fill:#000000; opacity:1;"
-                    d="M252.019 63.9061M252.019 63.9061Q255.664 66.2219 255.76 72.4611Q255.854 78.5392 252.518 84.8959Q249.184 91.2507 244.354 94.2048Q239.391 97.2296 235.747 94.9146L142.659 35.7833Q139.013 33.4674 138.917 27.2282Q138.823 21.1502 142.159 14.7934Q145.495 8.43674 150.326 5.4869Q155.285 2.45885 158.93 4.77472L252.019 63.9061L251.554 64.7916L158.466 5.66021Q155.31 3.6553 150.827 6.39207Q146.215 9.20837 143.003 15.3296Q139.791 21.451 139.88 27.2538Q139.967 32.8929 143.123 34.8978L236.211 94.0292Q239.367 96.0334 243.852 93.3Q248.463 90.4794 251.674 84.3597Q254.886 78.2385 254.797 72.4355Q254.71 66.7965 251.554 64.7916L252.019 63.9061Z"></path>
-                <path id="路径 3" style="fill:#000000; opacity:1;"
-                    d="M235.75 94.9222M235.75 94.9222Q232.105 92.6063 232.009 86.3671Q231.915 80.289 235.251 73.9323Q238.586 67.5756 243.417 64.6258Q248.377 61.5977 252.022 63.9136L251.558 64.7991Q248.401 62.7941 243.919 65.5309Q239.307 68.3473 236.095 74.4685Q232.883 80.5897 232.972 86.3927Q233.059 92.0318 236.215 94.0367L235.75 94.9222Z"></path>
-                <path id="路径 4" fill-rule="evenodd" style="fill:#FFFFFF" opacity="1"
-                    d="M236.859 93.621C232.927 91.1237 232.996 82.8954 237.012 75.2426C241.027 67.5898 247.47 63.4105 251.401 65.9078C255.333 68.4051 255.264 76.6334 251.249 84.2862C247.233 91.939 240.79 96.1184 236.859 93.621Z"></path>
-                <path id="路径 4" style="fill:#000000; opacity:1;"
-                    d="M236.626 94.0638M236.626 94.0638Q233.426 92.0307 233.473 86.3392Q233.519 80.8258 236.59 74.9745Q239.66 69.1232 243.977 66.3228Q248.433 63.432 251.634 65.465Q254.834 67.4981 254.787 73.1897Q254.741 78.703 251.671 84.5543Q248.6 90.4056 244.283 93.206Q239.827 96.0968 236.626 94.0638ZM237.091 93.1783Q239.788 94.8912 243.761 92.3139Q247.873 89.646 250.827 84.0181Q253.78 78.3902 253.824 73.1377Q253.866 68.0635 251.169 66.3505Q248.473 64.6376 244.5 67.2149Q240.387 69.8828 237.434 75.5107Q234.48 81.1386 234.437 86.3911Q234.395 91.4654 237.091 93.1783L237.091 93.1783Z"></path>
-                <path id="路径 5" fill-rule="evenodd" style="fill:#FFE599" opacity="1"
-                    d="M232.756 52.481L238.571 56.175C227.106 62.0128 221.943 71.8531 223.08 85.6956L217.264 82.0017C216.127 68.1591 221.291 58.3188 232.756 52.481Z"></path>
-                <path id="路径 5" style="fill:#000000; opacity:1;"
-                    d="M232.988 52.0383L239.595 56.2353L238.792 56.6444L239.595 56.2353L238.792 56.6444Q221.883 65.2547 223.56 85.6713L223.639 86.6414L216.807 82.3015L216.785 82.026L216.807 82.3015L216.785 82.026Q215.05 60.9147 232.535 52.0116L232.976 52.9505Q216.067 61.5608 217.744 81.9773L217.264 82.0017L217.744 81.9773L217.264 82.0017L217.497 81.5589L223.312 85.2529L223.08 85.6956L222.6 85.72Q220.866 64.6088 238.35 55.7056L238.571 56.175L238.35 55.7056L238.571 56.175L238.339 56.6177L232.523 52.9238L232.988 52.0383ZM232.988 52.0383L232.756 52.481L232.535 52.0116L232.763 51.8954L232.988 52.0383Z"></path>
-                <path id="路径 6" fill-rule="evenodd" style="fill:#FFE599" opacity="1"
-                    d="M163.206 8.65291L169.021 12.3469C157.556 18.1847 152.393 28.0249 153.53 41.8675L147.715 38.1735C146.577 24.331 151.741 14.4907 163.206 8.65291Z"></path>
-                <path id="路径 6" style="fill:#000000; opacity:1;"
-                    d="M163.438 8.21017L170.045 12.4072L169.242 12.8163L170.045 12.4072L169.242 12.8163Q152.333 21.4266 154.01 41.8432L154.089 42.8133L147.257 38.4734L147.235 38.1979L147.257 38.4734L147.235 38.1979Q145.5 17.0866 162.985 8.18349L163.426 9.12233Q146.517 17.7327 148.194 38.1492L147.715 38.1735L148.194 38.1492L147.715 38.1735L147.947 37.7308L153.762 41.4248L153.53 41.8675L153.05 41.8918Q151.316 20.7806 168.8 11.8775L169.021 12.3469L168.8 11.8775L169.021 12.3469L168.788 12.7896L162.973 9.09565L163.438 8.21017ZM163.438 8.21017L163.206 8.65291L162.985 8.18349L163.213 8.06729L163.438 8.21017Z"></path>
-                <path id="路径 7" fill-rule="evenodd" style="fill:#FF0000" opacity="1"
-                    d="M101.302 5.52811C105.836 2.64806 113.053 7.05219 117.419 15.3722C119.515 19.3665 120.661 23.7477 120.605 27.5507C120.543 31.3571 119.288 34.2668 117.109 35.6512L24.0209 94.7825C19.4869 97.6626 12.2695 93.2585 7.90359 84.9385C3.53764 76.6185 3.67972 67.5395 8.21365 64.6594L101.302 5.52811Z"></path>
-                <path id="路径 7" style="fill:#000000; opacity:1;"
-                    d="M101.069 5.08536M101.069 5.08536Q104.715 2.7695 109.674 5.79755Q114.505 8.74742 117.841 15.1041Q121.176 21.4589 121.086 27.5375Q120.986 33.7791 117.341 36.094L24.2532 95.2253Q20.6075 97.5411 15.6483 94.5131Q10.8173 91.5633 7.48154 85.2065Q4.14583 78.8498 4.23946 72.7717Q4.3355 66.5326 7.9813 64.2167L101.069 5.08536L101.534 5.97085L8.44596 65.1022Q5.2897 67.1071 5.20287 72.7462Q5.11347 78.5491 8.32565 84.6704Q11.5378 90.7917 16.1501 93.6079Q20.6322 96.3447 23.7885 94.3398L116.877 35.2085Q120.032 33.2042 120.123 27.5639Q120.208 21.76 116.997 15.6403Q113.785 9.51905 109.172 6.70272Q104.69 3.96593 101.534 5.97085L101.069 5.08536Z"></path>
-                <path id="路径 8" style="fill:#000000; opacity:1;"
-                    d="M117.341 36.094M117.341 36.094Q113.696 38.4099 108.736 35.3818Q103.905 32.432 100.57 26.0753Q97.2339 19.7186 97.3276 13.6405Q97.4236 7.40126 101.069 5.08539L101.534 5.97088Q98.3778 7.97581 98.291 13.6149Q98.2016 19.4178 101.414 25.5391Q104.626 31.6603 109.238 34.4766Q113.72 37.2134 116.877 35.2085L117.341 36.094Z"></path>
-                <path id="路径 9" fill-rule="evenodd" style="fill:#FFFFFF" opacity="1"
-                    d="M116.722 34.0985C112.79 36.5958 106.348 32.4165 102.332 24.7637C98.3163 17.1108 98.2478 8.88254 102.179 6.38522C106.111 3.88789 112.553 8.06723 116.569 15.72C120.585 23.3728 120.653 31.6011 116.722 34.0985Z"></path>
-                <path id="路径 9" style="fill:#4D4D4D; opacity:1;"
-                    d="M117.419 35.4267M117.419 35.4267Q113.714 37.7799 108.775 34.5755Q104.254 31.6427 101.066 25.5679Q97.8782 19.4932 97.8302 13.719Q97.7777 7.41018 101.482 5.05699Q105.187 2.70379 110.126 5.90818Q114.648 8.84102 117.835 14.9157Q121.023 20.9905 121.071 26.7647Q121.123 33.0735 117.419 35.4267L117.419 35.4267ZM116.025 32.7702Q118.218 31.3774 118.18 26.9204Q118.139 21.9288 115.303 16.5243Q112.467 11.1198 108.559 8.58446Q105.069 6.32065 102.876 7.71345Q100.684 9.10624 100.721 13.5632Q100.762 18.5549 103.598 23.9594Q106.434 29.3639 110.343 31.8992Q113.832 34.163 116.025 32.7702Z"></path>
-                <path id="路径 10" fill-rule="evenodd" style="fill:#FFE599" opacity="1"
-                    d="M82.4291 18.0501L88.2444 14.3561C87.2127 28.3995 92.4818 38.4405 104.052 44.4792L98.2364 48.1732C86.6665 42.1345 81.3974 32.0935 82.4291 18.0501Z"></path>
-                <path id="路径 10" style="fill:#000000; opacity:1;"
-                    d="M82.1968 17.6073L88.7952 13.4159L88.7247 14.3756L88.7952 13.4159L88.7247 14.3756Q87.2021 35.1002 104.276 44.0118L105.067 44.4245L98.2412 48.7604L98.0116 48.6405L98.2412 48.7604L98.0116 48.6405Q80.3763 39.4361 81.9489 18.0306L82.9094 18.0696Q81.3869 38.7943 98.4611 47.7058L98.2364 48.1732L98.4611 47.7058L98.2364 48.1732L98.004 47.7304L103.819 44.0365L104.052 44.4792L103.827 44.9466Q86.1916 35.7421 87.7641 14.3366L88.2444 14.3561L87.7641 14.3366L88.2444 14.3561L88.4767 14.7988L82.6615 18.4928L82.1968 17.6073ZM82.1968 17.6073L82.4291 18.0501L81.9489 18.0306L81.9694 17.7518L82.1968 17.6073Z"></path>
-                <path id="路径 11" fill-rule="evenodd" style="fill:#4D4D4D" opacity="1"
-                    d="M128.569 7.73639L129.099 8.74684C129.214 8.96691 129.138 9.25333 128.928 9.38659L110.523 21.0781C110.313 21.2114 110.049 21.141 109.934 20.9209L109.403 19.9105C109.288 19.6904 109.364 19.404 109.574 19.2707L127.98 7.57921C128.189 7.44595 128.453 7.51632 128.569 7.73639Z"></path>
-                <path id="路径 11" style="fill:#4D4D4D; opacity:1;"
-                    d="M128.991 7.4683L129.521 8.47874C129.765 8.94333 129.603 9.54801 129.16 9.82934L110.755 21.5209C110.312 21.8022 109.755 21.6536 109.512 21.189L108.981 20.1786C108.738 19.714 108.899 19.1093 109.342 18.828L127.747 7.13646C128.19 6.85514 128.747 7.00371 128.991 7.4683ZM128.147 8.00449C128.159 8.02894 128.189 8.03676 128.212 8.02195L109.806 19.7135C109.83 19.6987 109.838 19.6669 109.825 19.6424L110.356 20.6529C110.343 20.6284 110.314 20.6206 110.29 20.6354L128.696 8.94385C128.672 8.95865 128.664 8.99048 128.677 9.01493L128.147 8.00449Z"></path>
-                <path id="路径 12" fill-rule="evenodd" style="fill:#FFE599" opacity="1"
-                    d="M13.5098 61.8768L19.325 58.1828C18.2933 72.2263 23.5624 82.2673 35.1322 88.3059L29.317 91.9999C17.7471 85.9612 12.4781 75.9202 13.5098 61.8768Z"></path>
-                <path id="路径 12" style="fill:#000000; opacity:1;"
-                    d="M13.2774 61.4341L19.8758 57.2427L19.8053 58.2024L19.8758 57.2427L19.8053 58.2024Q18.2828 78.927 35.357 87.8386L36.1477 88.2512L29.3218 92.5871L29.0922 92.4673L29.3218 92.5871L29.0922 92.4673Q11.4569 83.2628 13.0295 61.8573L13.99 61.8963Q12.4675 82.6209 29.5418 91.5325L29.317 91.9999L29.5418 91.5325L29.317 91.9999L29.0846 91.5572L34.8999 87.8632L35.1322 88.3059L34.9075 88.7733Q17.2722 79.5689 18.8448 58.1633L19.325 58.1828L18.8448 58.1633L19.325 58.1828L19.5574 58.6256L13.7421 62.3196L13.2774 61.4341ZM13.2774 61.4341L13.5098 61.8768L13.0295 61.8573L13.05 61.5786L13.2774 61.4341Z"></path>
-                <path id="路径 13" style="fill:#000000; opacity:1;"
-                    d="M127.979 56L127.979 6L132.021 6L132.021 56L127.979 56Z"></path>
-            </g>
-        </svg>`;
-        const explosionEffect = `<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="194px" height="188px" viewBox="-0.5 -0.5 194 188">
-    <defs/>
-    <g>
-        <path d="M 74.76 48.17 L 109.24 48.17 L 119.76 17 L 130.28 48.17 L 164.76 48.17 L 137.29 69.04 L 148.18 102 L 119.76 81.6 L 91.34 102 L 102.23 69.04 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(30,119.76,59.5)" pointer-events="all"/>
-        <ellipse cx="72.44" cy="52" rx="5" ry="5" fill="#fff2cc" stroke="#ff0000" pointer-events="all"/>
-        <path d="M 163.27 62.83 L 163.27 57 L 167.44 61.17 L 171.61 57 L 171.61 62.83 L 177.44 62.83 L 173.27 67 L 177.44 71.17 L 171.61 71.17 L 171.61 77 L 167.44 72.83 L 163.27 77 L 163.27 71.17 L 157.44 71.17 L 161.61 67 L 157.44 62.83 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(15,167.44,67)" pointer-events="all"/>
-        <path d="M 13.65 85.06 L 13.65 71.38 L 25.22 78.2 L 36.79 71.38 L 36.79 85.06 L 47.44 91.36 L 36.79 97.7 L 36.79 111.38 L 25.22 104.52 L 13.65 111.38 L 13.65 97.7 L 3 91.36 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(10,25.22,91.38)" pointer-events="all"/>
-        <path d="M 52.44 72.67 L 79.26 72.67 L 87.44 47 L 95.62 72.67 L 122.44 72.67 L 101.07 89.86 L 109.55 117 L 87.44 100.2 L 65.33 117 L 73.81 89.86 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(-8,87.44,82)" pointer-events="all"/>
-        <ellipse cx="147.44" cy="177" rx="10" ry="10" fill="#fff2cc" stroke="#ff0000" pointer-events="all"/>
-        <ellipse cx="107.44" cy="17" rx="10" ry="10" fill="#fff2cc" stroke="#ff0000" pointer-events="all"/>
-        <path d="M 53.27 120.33 L 53.27 114.5 L 57.44 118.67 L 61.61 114.5 L 61.61 120.33 L 67.44 120.33 L 63.27 124.5 L 67.44 128.67 L 61.61 128.67 L 61.61 134.5 L 57.44 130.33 L 53.27 134.5 L 53.27 128.67 L 47.44 128.67 L 51.61 124.5 L 47.44 120.33 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(15,57.44,124.5)" pointer-events="all"/>
-        <path d="M 108.27 152.83 L 108.27 147 L 112.44 151.17 L 116.61 147 L 116.61 152.83 L 122.44 152.83 L 118.27 157 L 122.44 161.17 L 116.61 161.17 L 116.61 167 L 112.44 162.83 L 108.27 167 L 108.27 161.17 L 102.44 161.17 L 106.61 157 L 102.44 152.83 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(15,112.44,157)" pointer-events="all"/>
-        <path d="M 20.44 27 L 42.44 32 L 20.44 37 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(-140,31.44,32)" pointer-events="all"/>
-        <path d="M 168.66 27 L 190.66 32 L 168.66 37 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(-30,179.66,32)" pointer-events="all"/>
-        <path d="M 156.87 120.68 L 156.87 107 L 168.44 113.82 L 180.01 107 L 180.01 120.68 L 190.66 126.98 L 180.01 133.32 L 180.01 147 L 168.44 140.14 L 156.87 147 L 156.87 133.32 L 146.22 126.98 Z" fill="#fff2cc" stroke="#ff0000" stroke-miterlimit="10" transform="rotate(5,168.44,127)" pointer-events="all"/>
-    </g>
-</svg>`
+        var MaxCrackerNum = 16;
+        var realCrackerNum = 0;
+        var displayCrackerNum = 0;
+        const crackerHeight = 50;
+        const crackerWidth = 130;
+        const halfHeight = crackerHeight / 2;
+        const archerHeight = halfHeight - 1;
+        const crakerBaseTop = -crackerHeight;
+        const animeHeight = Math.floor(archerHeight * MaxCrackerNum * 1.5);
+        // var crackerList = new Array(MaxCrackerNum);
+        var crackerTopList = new Array(MaxCrackerNum);
+        for (var i = 0; i < MaxCrackerNum; i++) {
+            crackerTopList[i] = crakerBaseTop + i * archerHeight;
+        }
+        var crackerReverseList = new Array(MaxCrackerNum).fill(false);
+        var loopMode = false;
 
-        const crackerNumber = document.getElementById('crackerNumber');
-        const svgContainer = document.getElementById('svgContainer');
+        var lastCrackerTop = 0;
+        document.getElementById('anime').style.height = `${animeHeight}px`;
+        const effectInterval = 100;
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        function delta(center = 0, radius = 1) {
+            return center + (2 * Math.random() - 1) * radius;
+        }
 
         function gen() {
             // 刷新对联区域为空
             document.getElementById('couplet1').style.display = 'none';
             document.getElementById('couplet2').style.display = 'none';
-            document.getElementById('footer').style.display = 'none';
+            document.getElementById('logo').style.display = 'none';
+            // 重置svgF1
+            var svgF1_list = document.getElementsByClassName('svgF1');
+            while (svgF1_list.length > 0) {
+                svgF1_list[0].parentNode.removeChild(svgF1_list[0]);
+            }
+            // 当crackerNum大于等于MaxCrackerNum时，只生成MaxCrackerNum个svgF1
+            var anime = document.getElementById('anime');
+            realCrackerNum = document.getElementById('crackerNumber').value;
+            if (loopMode) {
+                realCrackerNum = 1000000;
+            }
+            displayCrackerNum = realCrackerNum >= MaxCrackerNum ? MaxCrackerNum : realCrackerNum;
+            for (var i = 0; i < displayCrackerNum; i++) {
+                var img = document.createElement('img');
+                img.id = 'svgF1_' + i;
+                img.className = 'svgF1';
+                img.src = './src/firework_lined1_v2.svg';
+                img.style.top = `${crackerTopList[i]}px`;
+                crackerReverseList[i] = Math.random() > 0.7;
+                if (crackerReverseList[i]) {
+                    img.style.transform = ' scaleX(-1)';
+                } else {
+                    img.style.transform = '';
+                }
+                anime.appendChild(img);
+            }
+            var lastCracker = document.getElementById('svgF1_' + (displayCrackerNum - 1));
+            lastCrackerTop = parseFloat(lastCracker.style.top);
+        }
 
-            const num = parseInt(crackerNumber.value);
-            if (!isNaN(num)) {
-                svgContainer.innerHTML = ''; // Clear the container
-                var horizontalMirror = false;
-                for (let i = 0; i < num; i++) {
-                    // 创建div
-                    const div = document.createElement('div');
-                    div.innerHTML = fireword_lined1;
+        async function fire() {
+            // 刷新对联区域为空
+            document.getElementById('couplet1').style.display = 'none';
+            document.getElementById('couplet2').style.display = 'none';
+            document.getElementById('logo').style.display = 'none';
+            if (loopMode) {
+                gen();
+            }
+            let restCrackerNum = realCrackerNum;
+            startingAnime();
 
-                    // 调整位置
-                    div.style.position = 'absolute';
-                    div.style.top = `${i * 48}px`;
+            // 多个随机音频方案
+            const audios = [
+                new Audio('./src/firecracker1.mp3'),
+                new Audio('./src/firecracker2.mp3'),
+                new Audio('./src/firecracker3.mp3'),
+                new Audio('./src/firecracker4.mp3'),
+                new Audio('./src/firecracker5.mp3'),
+            ];
+            const audioWeights = [0.4, 0.3, 0.1, 0.1, 0.1];
+            const cumulativeWeights = audioWeights.reduce((acc, weight, i) => {
+                acc[i] = (acc[i - 1] || 0) + weight;
+                return acc;
+            }, []);
 
-                    // 加入随机角度
-                    div.style.transformOrigin = '130px 6px';
-                    div.style.transform = `rotate(${-1 + Math.random() * 2}deg)`;
+            var img = document.getElementById('svgEffect');
+            // 循环特效设置
+            for (var i = 0; i < realCrackerNum; i++) {
+                restCrackerNum = realCrackerNum - i;
+                // // 无尽模式恢复设置
+                // if (!loopMode && realCrackerNum+1 > 1000000) {
+                //     realCrackerNum = i + MaxCrackerNum;
+                // } else {
+                //     realCrackerNum = 1000000;
+                // }
+                // 根据随机数选择音频
+                const audioIndex = cumulativeWeights.findIndex(weight => Math.random() < weight);
+                const audio = audios[audioIndex];
+                audio.currentTime = 0;
+                // 渐出音量 
+                if (restCrackerNum <= 5) {
+                    audio.volume = 0.2*restCrackerNum;
+                }
+                audio.play();
 
-                    // 随机/固定间隔切换水平镜像
-                    if (Math.random() > 0.9) {
-                        horizontalMirror = !horizontalMirror;
+                if (restCrackerNum > MaxCrackerNum) {
+                    // 处于无尽模式 不断生成爆炸特效
+                    displayCrackerNum = MaxCrackerNum;
+                    // 为特效加入随机角度大小位置透明度
+                    img.style.transformOrigin = 'center';
+                    img.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    img.style.width = `${delta(250, 150)}px`;
+                    img.style.height = `${delta(250, 150)}px`;
+                    img.style.top = `${lastCrackerTop + delta(-halfHeight, halfHeight)}px`;
+                    img.style.opacity = delta(0.5, 0.5);
+                    // 显示特效
+                    img.style.display = 'block';
+                    // 调整整个显示序列
+                    for (var j = displayCrackerNum - 1; j >= 0; j--) {
+                        if (j < 1) {
+                            crackerReverseList[j] = Math.random() > 0.7;
+                        } else {
+                            crackerReverseList[j] = crackerReverseList[j - 1];
+                        }
+                        var cracker = document.getElementById('svgF1_' + j);
+                        if (crackerReverseList[j]) {
+                            cracker.style.transform = ' scaleX(-1)';
+                        } else {
+                            cracker.style.transform = '';
+                        }
                     }
-                    if (horizontalMirror) {
-                        div.style.transform += ' scaleX(-1)';
-                    }
+                    // 延时
+                    await delay(effectInterval);
+                    // 特效复位
+                    img.style.display = 'none';
+                } else {
+                    // 处于有限模式 生成爆炸特效，移除最后一个爆竹
+                    displayCrackerNum = restCrackerNum;
+                    var lastCracker = document.getElementById('svgF1_' + (displayCrackerNum - 1));
+                    lastCrackerTop = parseFloat(lastCracker.style.top);
 
-                    svgContainer.appendChild(div);
+                    // 为特效加入随机角度大小位置透明度
+                    img.style.transformOrigin = 'center';
+                    img.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    img.style.width = `${delta(250, 100)}px`;
+                    img.style.height = `${delta(250, 100)}px`;
+                    img.style.top = `${lastCrackerTop + delta(-halfHeight, halfHeight)}px`;
+                    img.style.opacity = delta(0.5, 0.5);
+                    // 显示特效
+                    img.style.display = 'block';
+                    // 移除最后一个爆竹
+                    lastCracker.parentNode.removeChild(lastCracker);
+                    // 延时
+                    await delay(effectInterval);
+                    // 特效复位
+                    img.style.display = 'none';
 
                 }
-                svgContainer.style.width = '260px';
-                svgContainer.style.height = `${100 + num * 48}px`;
             }
+            realCrackerNum = 0;
+            img.style.display = 'none';
+            // 结束动画
+            endingAnime();
         }
 
-        function fire() {
-            var effectInterval = 100;
-            const divs = Array.from(svgContainer.querySelectorAll('div'));
-            divs.reverse().forEach((div, i) => {
-                setTimeout(() => {
-                    bloom(div, effectInterval);
-                }, i * effectInterval);
-            });
-            if (loopFlag) {
-                setTimeout(() => {
-                    gen();
-                    fire();
-                }, divs.length * effectInterval);
-            } else {
-                setTimeout(() => {
-                    endingAnime();
-                }, divs.length * effectInterval);
-
-            }
+        async function clickLogo() {
+            gen();
+            await delay(1000);
+            fire();
         }
 
-        function bloom(div, effectInterval) {
-            // 将内容修改为另一个爆炸特效
-            div.innerHTML = explosionEffect;
-            // 加入随机角度
-            div.style.transformOrigin = 'center';
-            div.style.transform = `rotate(${Math.random() * 360}deg)`;
-            // 加入随机大小
-            const svg = div.querySelector('svg');
-            svg.style.width = `${120 + Math.random() * 100}px`;
-            svg.style.height = `${120 + Math.random() * 100}px`;
-            // 加入随机位置
-            let originalTop = parseFloat(div.style.top);
-            div.style.top = `${originalTop - 100 + Math.random() * 50}px`;
-            div.style.left = `${25 + Math.random() * 50}px`;
-            // 加入随机透明度
-            svg.style.opacity = 0.5 + Math.random() * 0.5;
-            // 加入音效
-            const audio1 = new Audio('./src/firecracker1.mp3');
-            const audio2 = new Audio('./src/firecracker2.mp3');
-            const audio = Math.random() > 0.3 ? audio1 : audio2;
-            audio.currentTime = 0; // 设置播放位置
-            audio.play();
-            // setTimeout(() => {
-            //     audio.pause(); // 在指定的时长后停止播放
-            // }, duration * 1000);
-            // 随机延迟后删除
+        async function startingAnime() {
+            // 增加点火动画
 
-            setTimeout(() => {
-                svgContainer.removeChild(div);
-            }, effectInterval * (0.7 + 0.6 * Math.random()));
+            await delay(1000);
         }
 
         function endingAnime() {
@@ -325,26 +367,23 @@
                 document.getElementById('couplet2').innerText = couplet2;
                 document.getElementById('couplet1').style.display = 'inline-block';
                 document.getElementById('couplet2').style.display = 'inline-block';
-                document.getElementById('footer').style.display = 'inline-block';
                 // 启用动画
                 document.getElementById('couplet1').className += ' slideInFromTop';
                 document.getElementById('couplet2').className += ' slideInFromTop';
             });
         }
 
-        let loopFlag = false;
         function loop() {
-            loopFlag = !loopFlag;
-            if (loopFlag) {
-                // 设定按钮背景颜色
+            // 无尽模式
+            loopMode = !loopMode;
+            if (loopMode) {
                 document.getElementById('loopButton').style.backgroundColor = 'white';
             } else {
                 document.getElementById('loopButton').style.backgroundColor = 'beige';
             }
         }
-
-
     </script>
+
 </body>
 
 
